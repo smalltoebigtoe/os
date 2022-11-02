@@ -24,4 +24,6 @@ this is my shitty os
 
 [System V Application Binary Interface](https://www.intel.com/content/dam/develop/external/us/en/documents/mpx-linux64-abi.pdf)
 
+[Operating Systems: From 0 to 1](https://github.com/tuhdo/os01/)
+
 this has currently only been tested on wsl2 ubuntu
