@@ -1,22 +1,11 @@
-nasm boot.asm -f bin -o boot.bin
+# compile and write to disk image
+nasm -f bin bootloader.asm -o bootloader
 
-dd if=/dev/zero of=floppy.img bs=1024 count=1440
-dd if=boot.bin of=floppy.img seek=0 count=1 conv=notrunc
+# create 1.4MB floppy disk
+dd if=/dev/zero of=disk.img bs=512 count=2880
 
-if [ -d "iso/" ]
-then
-	echo "removing iso/ folder"
-	rm -drf iso/
-fi
+# write bootloader to 1st section
+dd conv=notrunc if=bootloader of=disk.img bs=512 count=1 seek=0
 
-mkdir iso
-cp floppy.img iso/
-genisoimage -quiet -V 'MYOS' -input-charset iso8859-1 -o os.iso -b floppy.img \
-	-hide floppy.img iso/
-
-qemu-system-x86_64 -cdrom ./os.iso
-
-rm -f boot.bin
-rm -drf iso/
-rm -f floppy.img
+# conv=notrunc preserves original size of floppy disk
 
